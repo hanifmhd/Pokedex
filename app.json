@@ -1,4 +1,5 @@
 {
   "name": "Pokemon",
-  "displayName": "Pokemon"
+  "displayName": "Pokemon",
+  "environment": "production"
 }
