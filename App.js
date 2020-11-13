@@ -1,28 +1,28 @@
-import {ApolloProvider, InMemoryCache, ApolloClient} from '@apollo/client';
+import {ApolloClient, ApolloProvider, InMemoryCache} from '@apollo/client';
 import React from 'react';
-import {SafeAreaView, StyleSheet} from 'react-native';
-import PokemonList from './src/components/PokemonList';
+import Router from './src/routes';
 
 const client = new ApolloClient({
   uri: 'https://pokemon-fclzip.pahamify.com/',
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          project: {
+            merge(existing, incoming) {
+              return incoming;
+            },
+          },
+        },
+      },
+    },
+  }),
 });
 
 export default function App() {
   return (
     <ApolloProvider client={client}>
-      <SafeAreaView style={styles.container}>
-        <PokemonList />
-      </SafeAreaView>
+      <Router />
     </ApolloProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#FFFFFF',
-  },
-});

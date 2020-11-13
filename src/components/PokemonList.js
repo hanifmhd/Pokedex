@@ -1,65 +1,113 @@
-import {gql, useQuery} from '@apollo/client';
+/* eslint-disable react-native/no-inline-styles */
+import {useQuery} from '@apollo/client';
 import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, FlatList, Image, Text, View} from 'react-native';
+import {
+  Dimensions,
+  FlatList,
+  Image,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {RFValue} from 'react-native-responsive-fontsize';
+import R from '../configs';
+import query from '../constants/query';
+import EmptyState from './EmptyState';
+import Loader from './Loader';
 
-const PokemonImage = ({image}) => {
-  const [height, setHeight] = useState('');
-  const [width, setWidth] = useState('');
-
-  useEffect(() => {
-    Image.getSize(
-      image,
-      (widthCallback, heightCallback) => {
-        setWidth(widthCallback);
-        setHeight(heightCallback);
-      },
-      console.error,
-    );
-  }, []);
-
-  if (height && width) {
-    return <Image source={{uri: image}} style={{width, height}} />;
-  } else {
-    return <ActivityIndicator size={'small'} />;
-  }
-};
-
-const PokemonList = () => {
-  const {loading, error, data} = useQuery(GET_FIRT_10_POKEMON);
+const {width} = Dimensions.get('screen');
+const PokemonList = ({onPress}) => {
+  const {loading, error, data} = useQuery(query.allPokemon);
 
   if (error) {
-    return <Text>Error!</Text>;
+    return (
+      <EmptyState title={'Error'} subtitle={'Please check your connection'} />
+    );
   }
   if (loading) {
-    return <Text>Loading!</Text>;
+    return <Loader isVisible={loading} title={'Loading list'} />;
   }
-  console.log(loading);
-  console.log(error);
-  console.log(data);
   return (
     <FlatList
-      data={data.pokemons}
+      data={data ? data.pokemons : []}
+      numColumns={2}
+      horizontal={false}
       keyExtractor={(item, index) => index.toString()}
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{
+        justifyContent: 'center',
+        marginLeft: RFValue(4),
+        marginTop: RFValue(4),
+        paddingBottom: RFValue(60),
+      }}
       renderItem={({item, index}) => (
-        <View>
-          <Text>{item.name}</Text>
-          <PokemonImage image={item.image} />
-        </View>
+        <TouchableOpacity
+          style={{
+            marginRight: RFValue(10),
+            marginBottom: RFValue(10),
+            padding: RFValue(10),
+            borderRadius: RFValue(10),
+            backgroundColor: R.colors.baseWhite,
+            shadowColor: R.colors.baseBlack,
+            shadowOffset: {
+              width: 0,
+              height: 1,
+            },
+            shadowOpacity: 0.1,
+            shadowRadius: 4,
+            elevation: 1,
+          }}
+          onPress={() => onPress(item)}>
+          <Text
+            style={{
+              fontSize: R.sizes.txtBody,
+              fontFamily: R.fonts.NunitoBold,
+              marginBottom: RFValue(10),
+            }}>
+            {item.name}
+          </Text>
+          <View style={{flexDirection: 'row'}}>
+            <View
+              style={{
+                marginRight: RFValue(10),
+                width: width * 0.14,
+              }}>
+              {item.types.map((item_types, index_types) => (
+                <View
+                  key={index_types}
+                  style={{
+                    backgroundColor: R.colors.baseGreyLight,
+                    marginBottom: RFValue(4),
+                    padding: RFValue(4),
+                    borderRadius: RFValue(4),
+                    alignItems: 'center',
+                  }}>
+                  <Text
+                    numberOfLines={1}
+                    style={{
+                      fontSize: R.sizes.txtHashtag,
+                      fontFamily: R.fonts.NunitoRegular,
+                    }}>
+                    {`#${item_types}`}
+                  </Text>
+                </View>
+              ))}
+            </View>
+            <Image
+              source={{uri: item.image}}
+              style={{width: RFValue(65), height: RFValue(65)}}
+            />
+          </View>
+        </TouchableOpacity>
       )}
+      ListEmptyComponent={
+        <EmptyState
+          title={'No data found'}
+          subtitle={'We cant find any pokemons'}
+        />
+      }
     />
   );
 };
-
-const GET_FIRT_10_POKEMON = gql`
-  {
-    pokemons(first: 10) {
-      id
-      number
-      name
-      types
-      image
-    }
-  }
-`;
 
 export default PokemonList;
