@@ -13,11 +13,12 @@ import {
 } from 'react-native';
 import {RFValue} from 'react-native-responsive-fontsize';
 import Swiper from 'react-native-swiper';
+import DeviceInfo from 'react-native-device-info';
 import Icon from 'react-native-vector-icons/Ionicons';
 import R from '../configs';
 
 const header = [
-  'What is Pokedex?',
+  `What is ${DeviceInfo.getApplicationName()}?`,
   'Three Amazing Features',
   'Simple Yet Functional',
 ];

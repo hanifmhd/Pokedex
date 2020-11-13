@@ -31,7 +31,6 @@ const label_3 = 'evolutions';
 const PokemonInfo = ({id, style}) => {
   const {loading, error, data} = useQuery(query.infoPokemon(id));
   const [indexTab, setIndexTab] = useState(0);
-  console.log(data);
   const Description = () => {
     let desc = data.pokemon;
     let label = label_0;

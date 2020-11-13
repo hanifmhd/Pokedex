@@ -12,7 +12,6 @@ import {
 } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import {RFValue} from 'react-native-responsive-fontsize';
-import {name as appName} from '../../app.json';
 import R from '../configs';
 
 const {width, height} = Dimensions.get('screen');
@@ -64,7 +63,7 @@ const Splash = ({navigation}) => {
         resizeMode="cover"
       />
       <View style={{marginVertical: RFValue(10)}}>
-        <Text style={styles.title}>{appName}</Text>
+        <Text style={styles.title}>{DeviceInfo.getApplicationName()}</Text>
         <Text style={styles.subtitle}>Version {DeviceInfo.getVersion()}</Text>
       </View>
     </View>
