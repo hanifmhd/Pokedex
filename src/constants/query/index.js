@@ -13,45 +13,42 @@ const query = {
   `,
   infoPokemon: (id) => gql`
     query {
-      pokemon(id: "${id}") {
+      pokemon(id: "${id}=") {
         id
         number
         name
-        weaknesses
+        classification
         maxCP
         maxHP
-        weight {
-          minimum
-          maximum
-        }
-        height {
-          minimum
-          maximum
-        }
-        classification
         fleeRate
+        resistant
+        weaknesses
+        height{
+          maximum
+          minimum
+        }
+        weight{
+          maximum
+          minimum
+        }
         attacks {
-          special {
+          fast {
             name
             type
             damage
           }
+          special {
+            name
+            type
+            damage
+          }      
         }
         evolutions {
           id
           number
           name
-          weight {
-            minimum
-            maximum
-          }
-          attacks {
-            fast {
-              name
-              type
-              damage
-            }
-          }
+          image
+          types
         }
       }
     }

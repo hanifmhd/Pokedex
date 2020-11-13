@@ -5,6 +5,7 @@ import {
   Dimensions,
   FlatList,
   Image,
+  Platform,
   Text,
   TouchableOpacity,
   View,
@@ -35,9 +36,10 @@ const PokemonList = ({onPress}) => {
       keyExtractor={(item, index) => index.toString()}
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{
+        alignItems: 'center',
         justifyContent: 'center',
-        marginLeft: RFValue(4),
-        marginTop: RFValue(4),
+        paddingLeft: RFValue(8),
+        paddingTop: RFValue(8),
         paddingBottom: RFValue(60),
       }}
       renderItem={({item, index}) => (
@@ -56,6 +58,7 @@ const PokemonList = ({onPress}) => {
             shadowOpacity: 0.1,
             shadowRadius: 4,
             elevation: 1,
+            width: width / 2.4,
           }}
           onPress={() => onPress(item)}>
           <Text
@@ -66,10 +69,9 @@ const PokemonList = ({onPress}) => {
             }}>
             {item.name}
           </Text>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <View
               style={{
-                marginRight: RFValue(10),
                 width: width * 0.14,
               }}>
               {item.types.map((item_types, index_types) => (
@@ -95,7 +97,11 @@ const PokemonList = ({onPress}) => {
             </View>
             <Image
               source={{uri: item.image}}
-              style={{width: RFValue(65), height: RFValue(65)}}
+              resizeMethod={'resize'}
+              style={{
+                width: Platform.OS === 'android' ? RFValue(80) : RFValue(65),
+                height: Platform.OS === 'android' ? RFValue(90) : RFValue(80),
+              }}
             />
           </View>
         </TouchableOpacity>

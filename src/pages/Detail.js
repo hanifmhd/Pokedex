@@ -2,6 +2,7 @@
 import React, {useEffect, useState} from 'react';
 import {
   Image,
+  Platform,
   SafeAreaView,
   StatusBar,
   StyleSheet,
@@ -118,5 +119,6 @@ const styles = StyleSheet.create({
   },
   canvas: {
     paddingHorizontal: RFValue(20),
+    paddingTop: Platform.OS === 'android' ? RFValue(40) : 0,
   },
 });
