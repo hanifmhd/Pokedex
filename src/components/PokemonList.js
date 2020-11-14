@@ -17,9 +17,24 @@ import EmptyState from './EmptyState';
 import Loader from './Loader';
 
 const {width} = Dimensions.get('screen');
-const PokemonList = ({onPress}) => {
+const PokemonList = ({onPress, display}) => {
   const {loading, error, data} = useQuery(query.allPokemon);
 
+  const checkImageSize = () => {
+    if (Platform.OS === 'android') {
+      if (display === 1) {
+        return {width: RFValue(160), height: RFValue(180)};
+      } else {
+        return {width: RFValue(80), height: RFValue(90)};
+      }
+    } else {
+      if (display === 1) {
+        return {width: RFValue(100), height: RFValue(100)};
+      } else {
+        return {width: RFValue(65), height: RFValue(80)};
+      }
+    }
+  };
   if (error) {
     return (
       <EmptyState title={'Error'} subtitle={'Please check your connection'} />
@@ -30,8 +45,9 @@ const PokemonList = ({onPress}) => {
   }
   return (
     <FlatList
+      key={display}
       data={data ? data.pokemons : []}
-      numColumns={2}
+      numColumns={display}
       horizontal={false}
       keyExtractor={(item, index) => index.toString()}
       showsVerticalScrollIndicator={false}
@@ -47,7 +63,8 @@ const PokemonList = ({onPress}) => {
           style={{
             marginRight: RFValue(10),
             marginBottom: RFValue(10),
-            padding: RFValue(10),
+            paddingVertical: RFValue(10),
+            paddingHorizontal: display === 1 ? RFValue(20) : RFValue(10),
             borderRadius: RFValue(10),
             backgroundColor: R.colors.baseWhite,
             shadowColor: R.colors.baseBlack,
@@ -58,7 +75,7 @@ const PokemonList = ({onPress}) => {
             shadowOpacity: 0.1,
             shadowRadius: 4,
             elevation: 1,
-            width: width / 2.4,
+            width: display === 1 ? width / 1.15 : width / 2.4,
           }}
           onPress={() => onPress(item)}>
           <Text
@@ -70,38 +87,49 @@ const PokemonList = ({onPress}) => {
             {item.name}
           </Text>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <View
-              style={{
-                width: width * 0.14,
-              }}>
-              {item.types.map((item_types, index_types) => (
-                <View
-                  key={index_types}
-                  style={{
-                    backgroundColor: R.colors.baseGreyLight,
-                    marginBottom: RFValue(4),
-                    padding: RFValue(4),
-                    borderRadius: RFValue(4),
-                    alignItems: 'center',
-                  }}>
-                  <Text
-                    numberOfLines={1}
+            <View>
+              <View
+                style={{
+                  width: width * 0.14,
+                  flexDirection: display === 1 ? 'row' : 'column',
+                }}>
+                {item.types.map((item_types, index_types) => (
+                  <View
+                    key={index_types}
                     style={{
-                      fontSize: R.sizes.txtHashtag,
-                      fontFamily: R.fonts.NunitoRegular,
+                      backgroundColor: R.colors.baseGreyLight,
+                      height: RFValue(20),
+                      marginBottom: RFValue(4),
+                      padding: RFValue(4),
+                      borderRadius: RFValue(4),
+                      alignItems: 'center',
+                      marginRight: RFValue(4),
                     }}>
-                    {`#${item_types}`}
-                  </Text>
-                </View>
-              ))}
+                    <Text
+                      numberOfLines={1}
+                      style={{
+                        fontSize: R.sizes.txtHashtag,
+                        fontFamily: R.fonts.NunitoRegular,
+                      }}>
+                      {`#${item_types}`}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+              {display === 1 && (
+                <Text
+                  style={{
+                    fontSize: R.sizes.txtHeading1,
+                    fontFamily: R.fonts.NunitoItalic,
+                  }}>
+                  {`#${item.number}`}
+                </Text>
+              )}
             </View>
             <Image
               source={{uri: item.image}}
               resizeMethod={'resize'}
-              style={{
-                width: Platform.OS === 'android' ? RFValue(80) : RFValue(65),
-                height: Platform.OS === 'android' ? RFValue(90) : RFValue(80),
-              }}
+              style={checkImageSize()}
             />
           </View>
         </TouchableOpacity>
