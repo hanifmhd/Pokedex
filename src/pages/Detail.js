@@ -1,4 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
+import AsyncStorage from '@react-native-community/async-storage';
 import React, {useEffect, useState} from 'react';
 import {
   Image,
@@ -10,6 +11,7 @@ import {
   View,
 } from 'react-native';
 import {RFValue} from 'react-native-responsive-fontsize';
+import Snackbar from 'react-native-snackbar';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {PokemonInfo} from '../components';
 import R from '../configs';
@@ -21,11 +23,54 @@ const Empty = ({navigation, route}) => {
   const [height, setHeight] = useState(0);
 
   useEffect(() => {
+    getFavorite();
     Image.getSize(data.image, (widthCallback, heightCallback) => {
       setWidth(widthCallback / 1.25);
       setHeight(heightCallback / 1.25);
     });
   }, []);
+
+  const getFavorite = async () => {
+    try {
+      const value = await AsyncStorage.getItem(R.strings.FAVORITE_DATA);
+      if (value !== null) {
+        if (value === data.id) {
+          setLike(true);
+        } else {
+          setLike(false);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const setFavorite = async () => {
+    if (like) {
+      try {
+        await AsyncStorage.setItem(R.strings.FAVORITE_DATA, '');
+        setLike(false);
+        Snackbar.show({
+          text: `${data.name} is removed from favorite`,
+          duration: Snackbar.LENGTH_SHORT,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      try {
+        await AsyncStorage.setItem(R.strings.FAVORITE_DATA, data.id);
+        setLike(true);
+        Snackbar.show({
+          text: `${data.name} is added to favorite`,
+          duration: Snackbar.LENGTH_SHORT,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar
@@ -50,7 +95,7 @@ const Empty = ({navigation, route}) => {
             name={`heart${like ? '' : '-outline'}`}
             size={RFValue(28)}
             color={like ? R.colors.baseRed : R.colors.baseBlack}
-            onPress={() => setLike(!like)}
+            onPress={() => setFavorite()}
           />
         </View>
         <View
@@ -105,7 +150,11 @@ const Empty = ({navigation, route}) => {
           }}
         />
       </View>
-      <PokemonInfo id={data.id} style={{marginTop: RFValue(20)}} />
+      <PokemonInfo
+        id={data.id}
+        style={{marginTop: RFValue(20)}}
+        onPress={(item) => navigation.push('Detail', {data: item})}
+      />
     </SafeAreaView>
   );
 };

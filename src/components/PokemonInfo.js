@@ -28,7 +28,7 @@ const label_0 = [
 const label_1 = ['maxHP', 'maxCP', 'fleeRate'];
 const label_2 = 'attacks';
 const label_3 = 'evolutions';
-const PokemonInfo = ({id, style}) => {
+const PokemonInfo = ({id, style, onPress}) => {
   const {loading, error, data} = useQuery(query.infoPokemon(id));
   const [indexTab, setIndexTab] = useState(0);
   const Description = () => {
@@ -55,7 +55,8 @@ const PokemonInfo = ({id, style}) => {
               borderBottomWidth: 0.5,
               borderBottomColor:
                 index === 0 ? R.colors.baseGrey : 'transparent',
-            }}>
+            }}
+            onPress={() => onPress(item)}>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Image
                 source={{uri: item.image}}
@@ -76,7 +77,9 @@ const PokemonInfo = ({id, style}) => {
                   <Text style={styles.body}>{item.name}</Text>
                   <View style={{flexDirection: 'row'}}>
                     {item.types.map((item_type, index_type) => (
-                      <Text style={styles.body}>{`${item_type}${
+                      <Text
+                        style={styles.body}
+                        key={item_type + index_type}>{`${item_type}${
                         index_type === item.types.length - 1 ? '' : ', '
                       }`}</Text>
                     ))}
@@ -106,7 +109,8 @@ const PokemonInfo = ({id, style}) => {
                   flexDirection: 'row',
                   justifyContent: 'space-between',
                   alignItems: 'center',
-                }}>
+                }}
+                key={item + index}>
                 <Text style={{flex: 1.5, ...styles.body}}>{item.name}</Text>
                 <Text style={{flex: 1, ...styles.body}}>{item.type}</Text>
                 <Text style={{flex: 0.5, ...styles.body}}>{item.damage}</Text>
@@ -155,7 +159,8 @@ const PokemonInfo = ({id, style}) => {
                   flexDirection: 'row',
                   justifyContent: 'space-between',
                   alignItems: 'center',
-                }}>
+                }}
+                key={item + index}>
                 <Text style={{flex: 1.5, ...styles.body}}>{item.name}</Text>
                 <Text style={{flex: 1, ...styles.body}}>{item.type}</Text>
                 <Text style={{flex: 0.5, ...styles.body}}>{item.damage}</Text>
@@ -205,7 +210,8 @@ const PokemonInfo = ({id, style}) => {
                 textTransform: 'capitalize',
                 marginBottom: RFValue(10),
                 ...styles.title,
-              }}>
+              }}
+              key={item + index}>
               {item}
             </Text>
           ))}
@@ -293,7 +299,7 @@ const PokemonInfo = ({id, style}) => {
         }}>
         {menu.map((item, index) => (
           <TouchableOpacity
-            key={index}
+            key={item + index}
             onPress={() => setIndexTab(index)}
             style={{
               borderBottomWidth: 1,
