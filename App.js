@@ -3,7 +3,7 @@ import React from 'react';
 import Router from './src/routes';
 
 const client = new ApolloClient({
-  uri: 'https://pokemon-fclzip.pahamify.com/',
+  uri: 'your_api',
   cache: new InMemoryCache({
     typePolicies: {
       Query: {
