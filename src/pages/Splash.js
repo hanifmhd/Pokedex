@@ -2,19 +2,10 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import {CommonActions} from '@react-navigation/native';
 import React, {useEffect} from 'react';
-import {
-  Dimensions,
-  Image,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {Image, StatusBar, StyleSheet, Text, View} from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import {RFValue} from 'react-native-responsive-fontsize';
 import R from '../configs';
-
-const {width, height} = Dimensions.get('screen');
 
 const Splash = ({navigation}) => {
   useEffect(() => {

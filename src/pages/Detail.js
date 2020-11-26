@@ -16,7 +16,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {PokemonInfo} from '../components';
 import R from '../configs';
 
-const Empty = ({navigation, route}) => {
+const Detail = ({navigation, route}) => {
   const [data, setData] = useState(route.params.data);
   const [like, setLike] = useState(false);
   const [width, setWidth] = useState(0);
@@ -159,7 +159,7 @@ const Empty = ({navigation, route}) => {
   );
 };
 
-export default Empty;
+export default Detail;
 
 const styles = StyleSheet.create({
   container: {

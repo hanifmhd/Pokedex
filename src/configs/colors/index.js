@@ -1,4 +1,4 @@
-const colorReferences = {
+const colors = {
   baseWhite: '#FFFFFF',
   baseBlack: '#000000',
 
@@ -11,10 +11,6 @@ const colorReferences = {
 
   baseRed: '#F42033',
   baseRedLight: '#FBA6AD',
-};
-
-const colors = {
-  ...colorReferences,
 };
 
 export default colors;

@@ -1,5 +1,5 @@
 import React from 'react';
-import {StatusBar, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {EmptyState} from '../components';
 import R from '../configs';
 
