@@ -9,10 +9,13 @@ Saepul nahwan - https://dribbble.com/shots/6540871-Pokedex-App/attachments/65408
 
 
 ## Result
-Home | Filter | Bulbasaur - Attacks | Bulbasaur - Evolutions
-:-------------------------: | :-------------------------: | :-------------------------: | :-------------------------:
-![](https://miro.medium.com/max/1000/1*gUQVkhUAL2xalsYx5XXyVg.png) | ![](https://miro.medium.com/max/1000/1*Oj_NgEcNwunITgQjyMpwcg.png) | ![](https://miro.medium.com/max/668/1*1HatKCRLE8nTm0QqwGMtpg.png) | ![](https://miro.medium.com/max/668/1*ffDzt0vnz7hmZdG6Fv2Xhw.png)
+Home | Filter 
+:-------------------------: | :-------------------------: 
+![](https://miro.medium.com/max/1000/1*gUQVkhUAL2xalsYx5XXyVg.png) | ![](https://miro.medium.com/max/1000/1*Oj_NgEcNwunITgQjyMpwcg.png)
 
+About | Attacks | Evolutions
+:-------------------------: | :-------------------------: | :-------------------------:
+![](https://miro.medium.com/max/668/1*t4UucCwGzjdxCwjtPP_26A.png)|![](https://miro.medium.com/max/668/1*1HatKCRLE8nTm0QqwGMtpg.png) | ![](https://miro.medium.com/max/668/1*ffDzt0vnz7hmZdG6Fv2Xhw.png)
 
 ## How to run project
 
